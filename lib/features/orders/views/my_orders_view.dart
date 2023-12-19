@@ -113,36 +113,7 @@ class _MyOrdersViewState extends State<MyOrdersView> {
                                     int index = orders.indexOf(order);
                                     String createOn = AppHelper.getCustomDate(order.createdAt ?? '');
 
-                                    Color statusColor = Colors.black;
-
-                                    switch (order.status) {
-                                      case Status.pending:
-                                        statusColor = Colors.deepPurple;
-                                        break;
-
-                                      case Status.accepted:
-                                        statusColor = Colors.blue;
-                                        break;
-
-                                      case Status.rejected:
-                                        statusColor = Colors.red;
-                                        break;
-
-                                      case Status.shipped:
-                                        statusColor = Colors.teal;
-                                        break;
-
-                                      case Status.delivered:
-                                        statusColor = Colors.green;
-                                        break;
-
-                                      case Status.cancelled:
-                                        statusColor = Colors.red;
-
-                                        break;
-
-                                      default:
-                                    }
+                                    Color statusColor = AppHelper.getStatusColor(order.status ?? "");
 
                                     return DataRow(
                                       cells: <DataCell>[

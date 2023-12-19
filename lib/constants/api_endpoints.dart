@@ -3,8 +3,8 @@ class ApiEndPoints {
   // static const _apiBaseUrl = 'http://10.0.2.2:3000/v1/user';
   // static const _rootUrl = 'http://10.0.2.2:3000/';
 
-  static const _apiBaseUrl = 'http://10.0.2.2:3000/v1/user';
-  static const _rootUrl = 'http://10.0.2.2:3000/';
+  static const _apiBaseUrl = 'https://organicfoods.passivedesk.com/v1/user';
+  static const _rootUrl = 'https://organicfoods.passivedesk.com/';
 
 // auth api
   static const _login = "$_apiBaseUrl/login";

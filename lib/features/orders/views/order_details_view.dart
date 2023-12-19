@@ -10,6 +10,7 @@ import '../../../models/address.dart';
 import '../../../models/order.dart';
 import '../../../models/order_item.dart';
 import '../../../models/product.dart';
+import '../widgets/order_item_detail.dart';
 
 class OrderDetailsView extends StatelessWidget {
   const OrderDetailsView({super.key, required this.order, required this.statusColor});
@@ -63,59 +64,64 @@ class OrderDetailsView extends StatelessWidget {
             final String image = product.image ?? "";
             final String imageUrl = image.isNotEmpty ? ApiEndPoints.rootUrl + image : "";
 
-            return Padding(
-              padding: EdgeInsets.only(bottom: 5.w),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      final imageProvider = Image.network(imageUrl).image;
-                      showImageViewer(
-                        context,
-                        imageProvider,
-                        doubleTapZoomable: true,
-                      );
-                    },
-                    child: Container(
-                      width: 50.w,
-                      height: 50.w,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.r),
-                        image: DecorationImage(
-                          image: NetworkImage(imageUrl),
+            return InkWell(
+              onTap: () {
+                _showItemDetails(context, item);
+              },
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 5.w),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        final imageProvider = Image.network(imageUrl).image;
+                        showImageViewer(
+                          context,
+                          imageProvider,
+                          doubleTapZoomable: true,
+                        );
+                      },
+                      child: Container(
+                        width: 50.w,
+                        height: 50.w,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.r),
+                          image: DecorationImage(
+                            image: NetworkImage(imageUrl),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(width: 10.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          product.name ?? "",
-                          style: TextStyle(fontSize: 15.sp),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(width: 10.w),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "$qty X ${AppHelper.getNumberFormated(price)}",
-                              style: TextStyle(fontSize: 15.sp, color: AppColors.textColor1),
-                            ),
-                            Text(
-                              "${AppHelper.getNumberFormated(total)}",
-                              style: TextStyle(fontSize: 15.sp, color: AppColors.textColor1),
-                            ),
-                          ],
-                        ),
-                      ],
+                    SizedBox(width: 10.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            product.name ?? "",
+                            style: TextStyle(fontSize: 15.sp),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(width: 10.w),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "$qty X ${AppHelper.getNumberFormated(price)}",
+                                style: TextStyle(fontSize: 15.sp, color: AppColors.textColor1),
+                              ),
+                              Text(
+                                "${AppHelper.getNumberFormated(total)}",
+                                style: TextStyle(fontSize: 15.sp, color: AppColors.textColor1),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }),
@@ -285,6 +291,19 @@ class OrderDetailsView extends StatelessWidget {
           style: TextStyle(fontSize: 15.sp, color: statusColor, fontWeight: FontWeight.bold),
         ),
       ],
+    );
+  }
+
+  _showItemDetails(BuildContext context, OrderItem item) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          width: double.infinity,
+          height: 400.w,
+          child: OrderItemDetail(item: item),
+        );
+      },
     );
   }
 }

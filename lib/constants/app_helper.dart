@@ -15,6 +15,7 @@ import '../features/dashboard/views/dashboard_view.dart';
 import '../widgets/custom_button.dart';
 import 'app_colors.dart';
 import 'app_strings.dart';
+import 'status.dart';
 
 class AppHelper {
   AppHelper._();
@@ -124,6 +125,39 @@ class AppHelper {
     await _secureStorage.delete(key: AppString.accessToken);
     Get.offAll(() => const DashboardView());
     showSnackBar(message: "Log out successfull");
+  }
+
+  static Color getStatusColor(String status) {
+    Color statusColor = AppColors.textColor1;
+    switch (status) {
+      case Status.pending:
+        statusColor = Colors.deepPurple;
+        break;
+
+      case Status.accepted:
+        statusColor = Colors.blue;
+        break;
+
+      case Status.rejected:
+        statusColor = Colors.red;
+        break;
+
+      case Status.shipped:
+        statusColor = Colors.teal;
+        break;
+
+      case Status.delivered:
+        statusColor = Colors.green;
+        break;
+
+      case Status.cancelled:
+        statusColor = Colors.red;
+        break;
+
+      default:
+    }
+
+    return statusColor;
   }
 
   static AppBar commonAppbar(String title, {List<Widget>? actions}) {
